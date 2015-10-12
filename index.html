@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>Docker in da house</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="Docker in da house - development reimagined">
+		<meta name="author" content="Sergey Kibish">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -40,19 +40,105 @@
 
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
-				<section>
-					<h1>Reveal.js</h1>
-					<h3>The HTML Presentation Framework</h3>
+				<section data-background="http://i.giphy.com/NYjZhHvGwsdMc.gif">
+					<h1>Docker in da house</h1>
+					<h3>Development environment reimagined</h3>
 					<p>
-						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+						<small>By <a href="//sergeykibish.com">Sergey Kibish</a> / <a href="//twitter.com/s_kibish">@s_kibish</a></small>
 					</p>
 				</section>
 
 				<section>
-					<h2>Hello There</h2>
-					<p>
-						reveal.js enables you to create beautiful interactive slide decks using HTML. This presentation will show you examples of what it can do.
+					<h2>What I will talk about today</h2>
+					<ul>
+						<li class="fragment">What is Docker?</li>
+						<li class="fragment">Usage on real app</li>
+						<li class="fragment">Tips and tricks</li>
+						<li class="fragment">Q&amp;A time</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Docker</h2>
+					<p class="fragment">
+						<img  data-src="//www.duenastrailers.com/sites/default/files/photos/3/9.png" alt="Container">
 					</p>
+					<p class="fragment">Anywhere*</p>
+				</section>
+
+				<section>
+					<h2>VM vs Container</h2>
+					<ul>
+						<li class="fragment">It uses the same kernel as its host</li>
+						<li class="fragment">AuFS</li>
+						<li class="fragment">Less space hungry</li>
+						<li class="fragment">Resource friendly</li>
+						<li class="fragment">Same environment. Easy.</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Problem to solve</h2>
+					<p>
+						Personal TODO list app that uses <strong>PHP</strong>, <strong>MySQL</strong>, <strong>Nginx</strong>.
+					</p>
+				</section>
+
+				<section data-background="//i.giphy.com/pVsn5LJEgMKxa.gif">
+				</section>
+
+				<section>
+					<h2>General ideas/rules</h2>
+					<ul>
+						<li>One process in one container</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>First Dockerfile</h2>
+					<p class="fragment">PHP</p>
+				</section>
+
+				<section>
+					<img data-src="/img/docker-hub.png" alt="Docker Hub">
+				</section>
+
+				<section>
+					<section>
+						<h2>First Dockerfile</h2>
+						<pre><code class="dockerfile hljs">
+FROM php:5.6-fpm
+					</code></pre>
+					</section>
+
+					<section>
+						<pre><code class="dockerfile hljs">
+FROM php:5.6-fpm
+
+RUN apt-get update && apt-get install -y \
+	libmcrypt-dev \
+	libpq-dev \
+	&& docker-php-ext-install mcrypt mbstring \
+	&& docker-php-ext-install mysqli pdo pdo_mysql tokenizer
+					</code></pre>
+					</section>
+
+					<section>
+						<pre><code class="dockerfile hljs">
+FROM php:5.6-fpm
+
+RUN apt-get update && apt-get install -y \
+	libmcrypt-dev \
+	libpq-dev \
+	&& docker-php-ext-install mcrypt mbstring \
+	&& docker-php-ext-install mysqli pdo pdo_mysql tokenizer
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
+					</code></pre>
+					</section>
+
 				</section>
 
 				<!-- Example of nested vertical slides -->
