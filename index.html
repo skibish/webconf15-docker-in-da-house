@@ -96,7 +96,9 @@
 
 				<section>
 					<h2>First Dockerfile</h2>
-					<p class="fragment">PHP</p>
+					<div class="fragment">
+						<object type="image/svg+xml" data="/img/php.svg"></object>
+					</div>
 				</section>
 
 				<section>
@@ -140,6 +142,110 @@ CMD ["php-fpm"]
 					</section>
 
 				</section>
+
+				<section>
+					<h2>Second Dockerfile</h2>
+					<div class="fragment">
+						<object type="image/svg+xml" data="/img/mysql.svg"></object>
+					</div>
+				</section>
+
+				<section data-background="//i.giphy.com/vPN3zK9dNL236.gif">
+					<h2>Dockerfile</h2>
+				</section>
+
+				<section>
+					<h2>Third Dockerfile</h2>
+					<div class="fragment">
+						<object type="image/svg+xml" data="/img/nginx.svg"></object>
+					</div>
+				</section>
+
+				<section>
+					<h2>vhost.conf</h2>
+						<pre><code class="nginx hljs">
+server {
+    listen 80;
+    index index.php index.html;
+    server_name docker.dev;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /var/www/html/public;
+
+    location / {
+        try_files $uri /index.php?$args;
+    }
+
+    location ~ \.php$ {
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
+						</code></pre>
+				</section>
+
+				<section>
+					<h2>Docker compose</h2>
+					<img data-src="/img/docker-compose.png" alt="Docker Hub">
+				</section>
+
+				<section data-background="//upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg">
+					<blockquote cite="//searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+					</blockquote>
+				</section>
+
+				<section data-background="//andrzejosinski.files.wordpress.com/2012/07/003-1600x1040_6357_salvador_dali_s_caravan_3d_surrealism_caravan_picture_image_digital_art.jpg">
+					<blockquote cite="//github.com/docker/compose">
+						&ldquo;Compose is a tool for defining and running multi-container applications with Docker. With Compose, you define a multi-container application in a single file, then spin your application up in a single command which does everything that needs to be done to get it running.&rdquo;
+					</blockquote>
+				</section>
+
+				<section data-background="//replygif.net/i/1182.gif">
+					<h2>Not bad</h2>
+				</section>
+
+				<section>
+					<pre><code class="yaml hljs">
+web:
+  image: nginx:latest
+  ports:
+    - 80:80
+  volumes:
+    - .:/var/www/html
+    - ./config/docker/nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
+  links:
+    - php
+php:
+  image: modified-php
+  volumes:
+    - ./config/docker/fpm/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
+    - .:/var/www/html
+  links:
+    - db
+db:
+  image: postgres:latest
+  ports:
+    - 5432:5432
+  environment:
+    - POSTGRES_PASSWORD=laravel
+    - POSTGRES_USER=laravel
+					</code></pre>
+				</section>
+
+
+
+
+
+
+
+
+
 
 				<!-- Example of nested vertical slides -->
 				<section>
