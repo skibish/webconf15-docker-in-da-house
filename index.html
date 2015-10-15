@@ -211,31 +211,51 @@ server {
 				</section>
 
 				<section>
-					<pre><code class="yaml hljs">
-web:
-  image: nginx:latest
-  ports:
-    - 80:80
-  volumes:
+					<h2>docker-compose.yml</h2>
+					<pre>
+<span class="fragment">web:</span>
+<span class="fragment"><span class="fragment highlight-current-green">  image: nginx:latest</span>
+<span class="fragment highlight-current-green">  ports:
+    - 80:80</span>
+<span class="fragment highlight-current-green">  volumes:
     - .:/var/www/html
-    - ./config/docker/nginx/vhost.conf:/etc/nginx/conf.d/vhost.conf
-  links:
-    - php
-php:
-  image: modified-php
+    - ./config/vhost.conf:/etc/nginx/conf.d/vhost.conf</span></span>
+<span class="fragment"><span class="fragment highlight-current-green">  links:
+    - php</span></span>
+<span class="fragment">php:</span>
+<span class="fragment"><span class="fragment highlight-current-green">  build: ./config/php</span>
   volumes:
-    - ./config/docker/fpm/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
-    - .:/var/www/html
-  links:
-    - db
-db:
-  image: postgres:latest
-  ports:
-    - 5432:5432
-  environment:
-    - POSTGRES_PASSWORD=laravel
-    - POSTGRES_USER=laravel
-					</code></pre>
+    - ./config/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
+<span class="fragment"><span class="fragment highlight-current-green">    links:
+    - db</span></span>
+<span class="fragment">db:</span>
+<span class="fragment"><span class="fragment highlight-current-green">  image: mysql:latest</span>
+<span class="fragment highlight-current-green">  ports:
+    - 3306:3306</span>
+<span class="fragment highlight-current-green">   environment:
+    - MYSQL_ROOT_PASSWORD=root</span>
+	</pre></span>
+				</section>
+
+				<section>
+					<h2>Demo time!</h2>
+				</section>
+
+				<section data-background="//i.giphy.com/3uyIgVxP1qAjS.gif">
+				</section>
+
+				<section>
+					<h2>Why?</h2>
+
+					<div class="fragment" style="display:inline-block;">
+						<object type="image/svg+xml" data="/img/composer.svg"></object>
+					</div>
+					<div class="fragment" style="display:inline-block;">
+						<object type="image/svg+xml" data="/img/nodejs-icon.svg"></object>
+					</div>
+					<div class="fragment" style="display:inline-block;">
+						<object type="image/svg+xml" data="/img/gulp.svg"></object>
+					</div>
 				</section>
 
 
