@@ -173,7 +173,7 @@ server {
     root /var/www/html/public;
 
     location / {
-        try_files $uri /index.php?$args;
+        try_files $uri $uri/ /index.php?$query_string;
     }
 
     location ~ \.php$ {
@@ -225,8 +225,9 @@ server {
 <span class="fragment">php:</span>
 <span class="fragment"><span class="fragment highlight-current-green">  build: ./config/php</span>
   volumes:
+    - .:/var/www/html
     - ./config/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
-<span class="fragment"><span class="fragment highlight-current-green">    links:
+<span class="fragment"><span class="fragment highlight-current-green">  links:
     - db</span></span>
 <span class="fragment">db:</span>
 <span class="fragment"><span class="fragment highlight-current-green">  image: mysql:latest</span>
@@ -235,6 +236,49 @@ server {
 <span class="fragment highlight-current-green">   environment:
     - MYSQL_ROOT_PASSWORD=root</span>
 	</pre></span>
+				</section>
+
+				<section>
+					<h2>Installation</h2>
+
+					<section>
+						<h2>Step 1</h2>
+
+						<pre class="bash hljs"><code>
+$ wget -qO- https://get.docker.com/ | sh
+						</code></pre>
+
+					</section>
+
+					<section>
+						<h2>Step 2</h2>
+
+						<pre><code class="bash hljs">
+$ sudo usermod -aG docker ubuntu
+						</code></pre>
+
+					</section>
+
+					<section>
+						<h2>Step 3</h2>
+
+						<pre><code class="bash hljs">
+$ curl -L https://github.com/docker/compose/releases/download/1.4.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+$ chmod +x /usr/local/bin/docker-compose
+						</code></pre>
+
+					</section>
+
+					<section>
+
+						<h2>Step 3.1</h2>
+
+						<pre><code class="bash hljs">
+$ curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose --version | awk 'NR==1{print $NF}')/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+						</code></pre>
+
+					</section>
+
 				</section>
 
 				<section>
