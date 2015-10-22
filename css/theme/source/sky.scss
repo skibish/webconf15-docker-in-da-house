@@ -25,13 +25,17 @@ $headingColor: #333;
 $headingLetterSpacing: -0.08em;
 $headingTextShadow: none;
 $backgroundColor: #f7fbfc;
-$linkColor: #3b759e;
+$linkColor: #5fbdff;
 $linkColorHover: lighten( $linkColor, 20% );
 $selectionBackgroundColor: #134674;
 
 // Fix links so they are not cut off
 .reveal a {
 	line-height: 1.3em;
+}
+
+.white {
+  color: #FFF !important;
 }
 
 // Background generator

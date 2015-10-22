@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
 
 		<!-- Code syntax highlighting -->
-		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<link rel="stylesheet" href="lib/css/default.css">
 
 		<!-- Printing and PDF exports -->
 		<script>
@@ -45,9 +45,9 @@
         </section>
 
 				<section data-background="http://i.giphy.com/NYjZhHvGwsdMc.gif">
-					<h1>Docker in da house</h1>
-					<h3>Development environment reimagined</h3>
-					<p>
+					<h1 class="white">Docker in da house</h1>
+					<h3 class="white">Development environment reimagined</h3>
+					<p class="white">
 						<small>By <a href="//sergeykibish.com">Sergey Kibish</a> / <a href="//twitter.com/s_kibish">@s_kibish</a></small>
 					</p>
 				</section>
@@ -110,8 +110,8 @@
 				</section>
 
 				<section>
+          <h2>First Dockerfile</h2>
 					<section>
-						<h2>First Dockerfile</h2>
 						<pre><code class="dockerfile hljs">
 FROM php:5.6-fpm
 					</code></pre>
@@ -155,7 +155,7 @@ CMD ["php-fpm"]
 				</section>
 
 				<section data-background="//i.giphy.com/vPN3zK9dNL236.gif">
-					<h2>Dockerfile</h2>
+					<h2 class="white">Dockerfile</h2>
 				</section>
 
 				<section>
@@ -211,12 +211,12 @@ server {
 				</section>
 
 				<section data-background="//replygif.net/i/1182.gif">
-					<h2>Not bad</h2>
+					<h2 class="white">Not bad</h2>
 				</section>
 
 				<section>
 					<h2>docker-compose.yml</h2>
-					<pre>
+					<pre style="padding-left:5px;background:#f0f0f0;">
 <span class="fragment">web:</span>
 <span class="fragment"><span class="fragment highlight-current-green">  image: nginx:latest</span>
 <span class="fragment highlight-current-green">  ports:
@@ -359,10 +359,6 @@ VOLUME /app
           <h2>Demo time!</h2>
         </section>
 
-        <section>
-          <h2>Ambassador</h2>
-        </section>
-
         <section data-background="//i.giphy.com/jYAGkoghdmD9S.gif">
         </section>
 
@@ -385,28 +381,18 @@ VOLUME /app
 		<script src="js/reveal.js"></script>
 
 		<script>
-
-			// Full list of configuration options available at:
-			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: true,
-				progress: true,
+				controls: false,
+				progress: false,
 				history: true,
 				center: true,
-
-				transition: 'slide', // none/fade/slide/convex/concave/zoom
-
-				// Optional reveal.js plugins
+        slideNumber: true,
+				transition: 'slide',
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
-					{ src: 'plugin/zoom-js/zoom.js', async: true },
-					{ src: 'plugin/notes/notes.js', async: true }
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
-
 		</script>
 
 	</body>
