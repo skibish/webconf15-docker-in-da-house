@@ -55,168 +55,72 @@
 				<section>
 					<h2>What I will talk about today</h2>
 					<ul>
-						<li class="fragment">What is Docker?</li>
-						<li class="fragment">Usage on real app</li>
-						<li class="fragment">Tips and tricks</li>
+						<li class="fragment">What is Docker</li>
+						<li class="fragment">Why to use it for Development</li>
+						<li class="fragment">TODO application</li>
 						<li class="fragment">Q&amp;A time</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Docker</h2>
-					<p class="fragment">
-						<img  data-src="//www.duenastrailers.com/sites/default/files/photos/3/9.png" alt="Container">
-					</p>
-					<p class="fragment">Anywhere*</p>
+          <section>
+            <h2>Docker</h2>
+            <p class="fragment">
+              <img  data-src="//www.duenastrailers.com/sites/default/files/photos/3/9.png" alt="Container">
+            </p>
+          </section>
+
+          <section>
+            <h2>Background</h2>
+            <ul>
+              <li class="fragment">Linux containers introduced in 2008</li>
+              <li class="fragment">Problem with common OS kernel is solved</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Cons</h2>
+            <ul>
+              <li class="fragment">Lightweight</li>
+              <li class="fragment">Open</li>
+              <li class="fragment">Secure</li>
+            </ul>
+          </section>
+
+          <section>
+            <img data-src="/img/docker-hub.png" alt="Docker Hub">
+          </section>
 				</section>
 
 				<section>
-					<h2>VM vs Container</h2>
+					<h2>Development</h2>
 					<ul>
-						<li class="fragment">It uses the same kernel as its host.</li>
-						<li class="fragment">Not space hungry.</li>
-						<li class="fragment">Networking done for you.</li>
-						<li class="fragment">Committing.</li>
-						<li class="fragment">Same environment. Easy.</li>
+						<li class="fragment">Consistent development environments</li>
+						<li class="fragment">env(dev) == env(prod)</li>
+						<li class="fragment">You only need Docker &lt;3</li>
+						<li class="fragment">Different language versions without hacks</li>
+						<li class="fragment">Can use editor/IDE <span class="fragment"><strong>Normally</strong></span></li>
 					</ul>
 				</section>
 
-				<section>
-					<h2>Problem to solve</h2>
-					<p>
-						Personal TODO app that uses <strong>PHP</strong>, <strong>MySQL</strong>, <strong>Nginx</strong>.
-					</p>
-				</section>
+        <section>
+          <h2>Docker compose</h2>
+          <img data-src="/img/docker-compose.png" alt="Docker Hub">
+        </section>
 
-				<section data-background="//i.giphy.com/pVsn5LJEgMKxa.gif">
-				</section>
+        <section data-background="//upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg">
+          <blockquote cite="//github.com/docker/compose">
+            &ldquo;Compose is a tool for defining and running multi-container applications with Docker. With Compose, you define a multi-container application in a single file, then spin your application up in a single command which does everything that needs to be done to get it running.&rdquo;
+          </blockquote>
+        </section>
 
-				<section>
-					<h2>General idea</h2>
-					<ul>
-						<li>One process in one container</li>
-					</ul>
-				</section>
+        <section data-background="//replygif.net/i/1182.gif">
+          <h2 class="white">Not bad</h2>
+        </section>
 
-				<section>
-					<h2>First Dockerfile</h2>
-					<div class="fragment">
-						<object type="image/svg+xml" data="/img/php.svg"></object>
-					</div>
-				</section>
-
-				<section>
-					<img data-src="/img/docker-hub.png" alt="Docker Hub">
-				</section>
-
-				<section>
-          <h2>First Dockerfile</h2>
-					<section>
-						<pre><code class="dockerfile hljs">
-FROM php:5.6-fpm
-					</code></pre>
-					</section>
-
-					<section>
-						<pre><code class="dockerfile hljs">
-FROM php:5.6-fpm
-
-RUN apt-get update && apt-get install -y \
-	libmcrypt-dev \
-	libpq-dev \
-	&& docker-php-ext-install mcrypt mbstring \
-	&& docker-php-ext-install mysqli pdo pdo_mysql tokenizer
-					</code></pre>
-					</section>
-
-					<section>
-						<pre><code class="dockerfile hljs">
-FROM php:5.6-fpm
-
-RUN apt-get update && apt-get install -y \
-	libmcrypt-dev \
-	libpq-dev \
-	&& docker-php-ext-install mcrypt mbstring \
-	&& docker-php-ext-install mysqli pdo pdo_mysql tokenizer
-
-EXPOSE 9000
-
-CMD ["php-fpm"]
-					</code></pre>
-					</section>
-
-				</section>
-
-				<section>
-					<h2>Second Dockerfile</h2>
-					<div class="fragment">
-						<object type="image/svg+xml" data="/img/mysql.svg"></object>
-					</div>
-				</section>
-
-				<section data-background="//i.giphy.com/vPN3zK9dNL236.gif">
-					<h2 class="white">Dockerfile</h2>
-				</section>
-
-				<section>
-					<h2>Third Dockerfile</h2>
-					<div class="fragment">
-						<object type="image/svg+xml" data="/img/nginx.svg"></object>
-					</div>
-				</section>
-
-				<section>
-					<h2>vhost.conf</h2>
-						<pre><code class="nginx hljs">
-server {
-    listen 80;
-    index index.php index.html;
-    server_name docker.dev;
-    error_log  /var/log/nginx/error.log;
-    access_log /var/log/nginx/access.log;
-    root /var/www/html/public;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass php:9000;
-        fastcgi_index index.php;
-        include fastcgi_params;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_param PATH_INFO $fastcgi_path_info;
-    }
-}
-						</code></pre>
-				</section>
-
-				<section>
-					<h2>Docker compose</h2>
-					<img data-src="/img/docker-compose.png" alt="Docker Hub">
-				</section>
-
-				<section data-background="//upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/1280px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg">
-					<blockquote cite="//searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
-						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
-					</blockquote>
-				</section>
-
-				<section data-background="//andrzejosinski.files.wordpress.com/2012/07/003-1600x1040_6357_salvador_dali_s_caravan_3d_surrealism_caravan_picture_image_digital_art.jpg">
-					<blockquote cite="//github.com/docker/compose">
-						&ldquo;Compose is a tool for defining and running multi-container applications with Docker. With Compose, you define a multi-container application in a single file, then spin your application up in a single command which does everything that needs to be done to get it running.&rdquo;
-					</blockquote>
-				</section>
-
-				<section data-background="//replygif.net/i/1182.gif">
-					<h2 class="white">Not bad</h2>
-				</section>
-
-				<section>
-					<h2>docker-compose.yml</h2>
-					<pre style="padding-left:5px;background:#f0f0f0;">
+        <section>
+          <h2>docker-compose.yml</h2>
+          <pre style="padding-left:5px;background:#f0f0f0;">
 <span class="fragment">web:</span>
 <span class="fragment"><span class="fragment highlight-current-green">  image: nginx:latest</span>
 <span class="fragment highlight-current-green">  ports:
@@ -238,125 +142,36 @@ server {
 <span class="fragment highlight-current-green">  ports:
     - 3306:3306</span>
 <span class="fragment highlight-current-green">   environment:
-    - MYSQL_ROOT_PASSWORD=root</span>
-	</pre></span>
-				</section>
-
-				<section>
-					<h2>Installation</h2>
-
-					<section>
-						<h2>Step 1</h2>
-
-						<pre class="bash hljs"><code>
-$ wget -qO- https://get.docker.com/ | sh
-						</code></pre>
-
-					</section>
-
-					<section>
-						<h2>Step 2</h2>
-
-						<pre><code class="bash hljs">
-$ sudo usermod -aG docker &lt;user&gt;
-						</code></pre>
-
-					</section>
-
-					<section>
-						<h2>Step 3</h2>
-
-						<pre><code class="bash hljs">
-$ curl -L https://github.com/docker/compose/releases/download/1.4.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-$ chmod +x /usr/local/bin/docker-compose
-						</code></pre>
-
-					</section>
-
-					<section>
-
-						<h2>Step 3.1</h2>
-
-						<pre><code class="bash hljs">
-$ curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose --version | awk 'NR==1{print $NF}')/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
-						</code></pre>
-
-					</section>
-
-				</section>
-
-				<section>
-					<h2>Demo time!</h2>
-				</section>
-
-				<section data-background="//i.giphy.com/3uyIgVxP1qAjS.gif">
-				</section>
-
-				<section>
-					<h2>Why?</h2>
-
-					<div class="fragment" style="display:inline-block;">
-						<object type="image/svg+xml" data="/img/composer.svg"></object>
-					</div>
-					<div class="fragment" style="display:inline-block;">
-						<object type="image/svg+xml" data="/img/nodejs-icon.svg"></object>
-					</div>
-					<div class="fragment" style="display:inline-block;">
-						<object type="image/svg+xml" data="/img/gulp.svg"></object>
-					</div>
-				</section>
-
-				<section>
-					<h2>Composer</h2>
-
-					<pre class="fragment"><code class="bash hljs">
-$ docker pull composer/composer
-					</code></pre>
-				</section>
-
-				<section>
-					<h2>Node</h2>
-
-					<pre class="fragment"><code class="dockerfile hljs">
-FROM gliderlabs/alpine:latest
-
-MAINTAINER Sergey Kibish &lt;"sergey.kibish@gmail.com"&gt;
-
-ENV NODE_VERSION 4.1.2
-
-RUN apk add --update make gcc g++ python linux-headers paxctl libgcc libstdc++
-
-RUN wget -c http://nodejs.org/dist/v"$NODE_VERSION"/node-v"$NODE_VERSION".tar.gz &amp;&amp; \
-  tar -xzf node-v"$NODE_VERSION".tar.gz &amp;&amp; \
-  cd node-v"$NODE_VERSION" &amp;&amp; \
-  ./configure --prefix=/usr &amp;&amp; \
-  make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) &amp;&amp; \
-  make install &amp;&amp; \
-  paxctl -cm /usr/bin/node &amp;&amp; \
-  cd / &amp;&amp; \
-  if [ -x /usr/bin/npm ]; then \
-    npm install -g npm &amp;&amp; \
-    find /usr/lib/node_modules/npm -name test -o -name .bin -type d | xargs rm -rf; \
-  fi &amp;&amp; \
-  apk del curl make gcc g++ python linux-headers paxctl &amp;&amp; \
-    rm -rf /usr/share/man /tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp \
-    /usr/lib/node_modules/npm/man /usr/lib/node_modules/npm/doc /usr/lib/node_modules/npm/html \
-    node-v4.1.2*
-
-RUN npm install -g \
-  grunt-cli \
-  gulp \
-  bower \
-  babel
-
-WORKDIR /app
-
-VOLUME /app
-					</code></pre>
-				</section>
+    - MYSQL_ROOT_PASSWORD=root
+    - MYSQL_DATABASE=todo</span>
+  </pre></span>
+        </section>
 
         <section>
           <h2>Demo time!</h2>
+        </section>
+
+        <section data-background="//i.giphy.com/3uyIgVxP1qAjS.gif">
+        </section>
+
+        <section>
+          <h2>Why?</h2>
+
+          <div class="fragment">
+            <object type="image/svg+xml" data="/img/composer.svg"></object>
+          </div>
+        </section>
+
+        <section>
+          <h2>Composer</h2>
+
+          <pre class="fragment"><code class="bash hljs">
+$ docker pull composer/composer
+          </code></pre>
+        </section>
+
+        <section>
+          <h2>Back to demo</h2>
         </section>
 
         <section data-background="//i.giphy.com/jYAGkoghdmD9S.gif">
