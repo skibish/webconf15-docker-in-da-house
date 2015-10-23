@@ -99,3 +99,9 @@ Let’s go back and install needed dependencies.
 Ok, we have installed dependencies, now we need to migrate database. How to do this easily. Let’s run php image that was build with artisan command. Ok. Let’s try to do something. Good. Know I will kill everything.
 
 ............ (about docker images etc.)
+
+### That's all folks!
+
+It's a question time
+
+### Fun dockerizing!
