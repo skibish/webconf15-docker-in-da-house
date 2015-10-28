@@ -1,13 +1,21 @@
-Hello everyone! Let me first introduce myself. I am ...
+Hello everyone! Before we start, let me first introduce myself.
+
+### Who am I
+
+- My name is Sergey Kibish
+- I am Full Stack Web Developer at Transact Pro
+- I believe that simplicity is a key to anything
+- I love good music. Listen it and if I have time, to play it.
+- And this is my first time speech in front of developers
 
 And, let’s start
 
 **Docker in da house**
 
-### About what I will talk today:
+### Today I will talk about
 
-- A little bit about what is docker. Main concepts, so we will have correct vision of it
-- Why I recommend to use it in development
+- A little bit - what is Docker. Main concepts, so we will have correct vision of it
+- During my talk I will answer a question: Why I recommend to use it in development
 - Also I prepared a demo - list/TODO application to show abilities of Docker (PHP, MySQL, NGINX and something more)
 - Q&A time is there will be time left :)
 
@@ -34,47 +42,66 @@ Technology upon which Docker’s software was originally built, were introduced 
 
 We will look deeper further.
 
-Another thing, why docker is popular is docker hub. It is an open docker images repository. It is open project, so you can run your own repository too. So, you can develop image, upload it and someone can use it. It has also official images, like php, reds, mysql etc.
+Another thing, why docker is popular is docker hub. It is an open docker images repository. It is open project, so you can run your own repository too. You can develop image, upload it and someone can use it. It has also official images, like php, reds, mysql etc.
 
 ### So, why I encourage you to use it in development?
 
 > https://medium.com/iron-io-blog/why-and-how-to-use-docker-for-development-a156c1de3b24#.1t1u7iv70
 
 - Consistent development environments for your entire team. All developers use the same OS, same system libraries, same language runtime, no matter what host OS they are using (even Windows if you can believe it).
-- The development environment is the exact same as the production environment. Meaning you can deploy and it will “just work”.
+- The development environment is the exactly the same as the production environment. Meaning you can deploy and it will “just work”.
 - You only need Docker to develop. You don’t need to install a bunch of language environments on your machine. Want to run a Ruby script but don’t have Ruby installed? Run it in a Ruby Docker image.
 - Can use multiple language versions without having to resort to all the hackarounds for your language. Want php version 7, 3 or 4? Just download container with language of needed version.
-- Deployment is easy. If it runs in your container, it will run on your server just the same. Just package up your code and deploy it on a server with the same image or push a new Docker image with your code in it and run that new image.
 - Can still use your favorite editor/IDE as you normally do. No need for running a VM in VirtualBox and SSHing in and developing from the shell just so you can build/run on a Linux box.
 
 ### And it's easy to use
 
-I will show you know
+I will show you now.
 
 If you know git, some commands will look familiar.
 
 Let's install ubutnu and centos.
 
+But before that - about installation. It also easy to do that.
+
+If you a are using Mac or Windows you can install Docker toolbox.
+
+After that you will be ready to go.
+
+What I was doing? Aha! Installing ubuntu and centos
+
+[switch to console]
+
 `$ docker pull ubuntu`
 
 `$ docker pull centos`
 
-Let's run it interactively:
+To run image you can type:
+`$ docker run ubuntu bash`
+
+But I will run it automatically with additional flag like this:
 
 `$ docker run --rm -it ubuntu bash` - Get inside ubuntu
 
-`yum`
+Ok, we are inside of ubuntu. Let's check that we are really in ubuntu. Type:
+
+`$ cat /etc/*-release`
+
+Good. I wil exit it, and let's do the same for centos:
 
 `$ docker run --rm -it centos bash` - Get inside centos
 
-`apt-get`
+`$ cat /etc/*-release`
 
-`$ cat /etc/*-release` - info about OS
+Cool!
 
-`$ uname -r` - will show, that kernel is the same
+Remember I have told that Docker shares the kernel? Let's check kernel now
 
+`$ uname -r`
 
-So let’s setup our demo app.
+As you can see kerenl is of virtual machine boot2docker.
+
+Ok. basically we are ready to setup our demo app.
 
 It will be easy. We will up and ready in less than 20 minutes. Trust me.
 
@@ -82,27 +109,27 @@ But before that a question. We are lazy, are we?
 
 ### Let me introduce you to Docker compose.
 
-What it is? From official documentation on github:
+What is it? From official documentation on github:
 
 > “Compose is a tool for defining and running multi-container applications with Docker. With Compose, you define a multi-container application in a single file, then spin your application up in a single command which does everything that needs to be done to get it running.” [drmaatic pause]
 
 ### Not bad, hey?
 
-### Let’s write docker compose file
+### Let’s write docker compose file for our project
 
 It is a yml file.
 
 I will start from nginx server - I will name it web.
 
-Here it is, a description of the web. What we see here.
+Here it is, a description of the web container. What we see here.
 We will create container on top of official nginx latest image.
 
 We are binding container nginx port to our host 80 port, so we will be able to connect through port 80.
 
-We are giving access to container to our project (dot) and mapping it inside of container + we are mapping our configuration file in container to overwrite defaults.
+We are giving access to our project (dot) and mapping it inside of container + we are mapping our configuration file in container to overwrite defaults.
 
-Next massive step is to connect somehow web with php.
-So, we are writing following command. We are linking web container to php container. This way they will know about each other. How? Through hosts file.
+Next massive step is to connect somehow web with php. Because nginx must know about php-fpm. Who to do this?
+So, we are writing following command. We are linking web container to php container. This way they will know about each other. How? With some magic? No. Through hosts file.
 
 Let’s write configuration for php container.
 
@@ -110,13 +137,13 @@ We have written for it separate docker file file (because we use Lumen and it ha
 
 This is how it will be done. With build command.
 
-Image will be build from dockerfile which is in this directory and tagged and this image will be used to build containers further for current project.
+Image will be build from dockerfile which is in this directory. This image will be used to build containers further for current project.
 
 And again, we are sharing our project, so php-fpm will know about php files.
 
 I’m passing here optional php-fpm config file to overwrite some defaults.
 
-What we have left? Database. Who must know about database? PHP! Let’s link it to database!
+What we have left? Database. Who must know about database? PHP! Let’s link it to the database!
 
 Database.
 
@@ -127,6 +154,12 @@ Binding our HOST port to container exposed default port.
 And setting mandatory environment variable which defines password for root user of database and database name.
 
 And we finished it! Let’s see if it works?
+
+`$ cd project `
+
+`$ docker-compose up -d`
+
+Let's go to the browser.
 
 No...
 
@@ -148,7 +181,7 @@ Let’s go back and install needed dependencies.
 
 `$ docker run --rm -v $(pwd):/app composer/composer install`
 
-As a hint you can save it as alias compose and use it as normal composer like `composer install`
+As a hint you can save it as alias `compose` and use it as normal composer like `composer install`
 
 Ok, we have installed dependencies.
 
@@ -161,6 +194,36 @@ Let’s run artisan migrate command inside php container.
 `$ docker exec php-fpm php aritsan migrate`
 
 We migrated a databse! Cool! Let see if it works.
+
+Yes, it works!
+
+###
+
+To show you, that you can edit files like normal developer in ide or editor, let's go to the directory with todo title and change it.
+
+### Dockerfile
+
+I have mentioned dockerfiles. What is it? Basically it is a set of instructions that must be run by Docker engine to build your image.
+
+Let's look at our php dockerfile from which image was build.
+
+Most dockerfiles will look he same.
+
+First command FROM is mandatory. It tells Docker what is the base image for your container.
+
+We already have seen this command in docker-compose config file.
+
+Second command is here RUN. Looks like bash command here with apt-get to install all needed stuff.
+
+But really what it does is - it will execute this command that we have written in a new layer on top of the current image and will commit the results. The resulting committed image will be used for next step in the docker file.
+
+Your image is like a cake. Remember it like this one. This means, that when you will add something to your image and write additional RUN command - image will not be build all over again. It will understand what was changed and will build from this point.
+
+EXPOSE command tells docker what default port will be shown to the outer world.
+
+CMD (command) is telling - when container will start - what command to execute. In this case we are executing php-fpm. It has two ways of writing - like string or array, if like array it will executed as regular command in shell. If as string, it will be executed like sh -c.
+
+So, remember about cakes.
 
 
 ............ (about docker images etc.)

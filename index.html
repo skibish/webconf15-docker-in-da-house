@@ -64,7 +64,7 @@
 				</section>
 
 				<section>
-					<h2>What I will talk about today</h2>
+					<h2>Today I will talk about</h2>
 					<ul>
 						<li class="fragment">What is Docker</li>
 						<li class="fragment">Why to use it for Development</li>
@@ -119,6 +119,19 @@
         </section>
 
         <section>
+          <section>
+            <h2>Installation</h2>
+            <img class="fragment" src="/img/docker-toolbox.png" alt="Docker Toolbox">
+          </section>
+
+          <section>
+            <h2>Installation</h2>
+            <pre><code class="hljs">$ apt-get install docker-engine</code></pre>
+          </section>
+
+        </section>
+
+        <section>
           <h2>Docker compose</h2>
           <img data-src="/img/docker-compose.png" alt="Docker Hub">
         </section>
@@ -151,7 +164,7 @@
     - .:/var/www/html
     - ./config/php-fpm.conf:/etc/php5/fpm/php-fpm.conf
 <span class="fragment"><span class="fragment highlight-current-green">  links:
-    - db</span></span>
+    - db</span></span></span>
 <span class="fragment">db:</span>
 <span class="fragment"><span class="fragment highlight-current-green">  image: mysql:latest</span>
 <span class="fragment highlight-current-green">  ports:
@@ -159,7 +172,7 @@
 <span class="fragment highlight-current-green">   environment:
     - MYSQL_ROOT_PASSWORD=root
     - MYSQL_DATABASE=todo</span>
-  </pre></span>
+</span></pre>
         </section>
 
         <section>
@@ -180,22 +193,47 @@
         <section>
           <h2>Composer</h2>
 
-          <pre class="fragment"><code class="bash hljs">
-$ docker pull composer/composer
-          </code></pre>
+          <pre class="fragment"><code class="bash hljs">$ docker pull composer/composer</code></pre>
         </section>
 
         <section>
           <h2>Back to demo</h2>
         </section>
 
+        <section>
+          <h2>Dockerfile</h2>
+
+          <pre class="fragment"><code class="dockerfile hljs">
+FROM php:5.6-fpm
+
+RUN apt-get update &amp;&amp; apt-get install -y \
+  libmcrypt-dev \
+  libpq-dev \
+  &amp;&amp; docker-php-ext-install mcrypt mbstring \
+  &amp;&amp; docker-php-ext-install mysqli pdo pdo_mysql tokenizer
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
+          </code></pre>
+
+        </section>
+
+        <section>
+          <h2>Layers</h2>
+          <img data-src="//www.echantillonsgratuits.be/wp-content/uploads/2015/05/rainbow-cake2-conseils-de-caro.jpg">
+        </section>
+
         <section data-background="//i.giphy.com/jYAGkoghdmD9S.gif">
+          <h2>  </h2>
         </section>
 
         <section data-background="//natebettger.files.wordpress.com/2011/09/545653437_5a1b7b17c0_b.jpg">
+          <h2>  </h2>
         </section>
 
         <section data-background="//i.giphy.com/jE9vCJsaPgg7u.gif">
+          <h2>  </h2>
         </section>
 
         <section>
@@ -215,7 +253,6 @@ $ docker pull composer/composer
 				progress: false,
 				history: true,
 				center: true,
-        slideNumber: true,
 				transition: 'slide',
 				dependencies: [
 					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
