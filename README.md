@@ -225,8 +225,13 @@ CMD (command) is telling - when container will start - what command to execute. 
 
 So, remember about cakes.
 
+### Imagine, that our app evolved
 
-............ (about docker images etc.)
+We not only have basic stuff, but also have now queue - where our tasks will go now, worker who will disassemble it and we have generator, because, we do not want to think about tasks. They will be generated automatically.
+
+We see how fast they start and look (htop) - containers are using nothing of resources. This is cool. This is example of their lightweight. Remember that they ALL are running some operating systems.
+
+Also you can see logs of all of your containers. They are pretty. Let's look on them.
 
 ### That's all folks!
 
