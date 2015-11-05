@@ -6,7 +6,6 @@ Hello everyone! Before we start, let me first introduce myself.
 - I am Full Stack Web Developer at Transact Pro
 - I believe that simplicity is a key to anything
 - I love good music. Listen it and if I have time, to play it.
-- And this is my first time speech in front of developers
 
 And, let’s start
 

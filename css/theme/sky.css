@@ -11,6 +11,9 @@
 .white {
   color: #FFF !important; }
 
+.fa-ul li {
+  list-style-type: none; }
+
 /*********************************************
  * GLOBAL STYLES
  *********************************************/
