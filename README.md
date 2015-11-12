@@ -86,7 +86,7 @@ Ok, we are inside of ubuntu. Let's check that we are really in ubuntu. Type:
 
 `$ cat /etc/*-release`
 
-Good. I wil exit it, and let's do the same for centos:
+Good. I will exit it, and let's do the same for centos:
 
 `$ docker run --rm -it centos bash` - Get inside centos
 
@@ -231,6 +231,18 @@ We not only have basic stuff, but also have now queue - where our tasks will go 
 We see how fast they start and look (htop) - containers are using nothing of resources. This is cool. This is example of their lightweight. Remember that they ALL are running some operating systems.
 
 Also you can see logs of all of your containers. They are pretty. Let's look on them.
+
+### OK, after all of that, there is a last question. Do we use it?
+
+Yes!
+
+We are developing our apps in microservices architecture.
+
+Now we have **more than** 20 microservices.
+
+And all of them are spinning on all team member machines.
+
+And this is not counting connections to MySQL, redis, queues.
 
 ### That's all folks!
 
